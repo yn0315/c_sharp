@@ -1,0 +1,15 @@
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.exe
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.deps.json
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.runtimeconfig.json
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.dll
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.pdb
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.csproj.AssemblyReference.cache
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.GeneratedMSBuildEditorConfig.editorconfig
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.AssemblyInfoInputs.cache
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.AssemblyInfo.cs
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.csproj.CoreCompileInputs.cache
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.dll
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\refint\projectJYW.dll
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.pdb
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.genruntimeconfig.cache
+C:\study\projectJYW\projectJYW\obj\Debug\net6.0\ref\projectJYW.dll
