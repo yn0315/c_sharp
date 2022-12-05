@@ -1,9 +1,161 @@
-﻿using static System.Console;
-
+﻿using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
+using static System.Console;
+using System.Diagnostics;
+using System.Threading;
 class SignedInteger
+
 {
+    static string message = "전역변수";
+    static void show() // 클래스 안에 있으므로 함수는 위, 아래 아무데나 작성해도 괜찮다.
+    {
+        WriteLine("hello world");
+    }
+    static int GetInt(int x)
+    {
+        int r = x * x;
+        return r;
+    }
+
+    static int Max(int x, int y)
+    {
+        return(x > y )? x : y;  
+    }
+
+    static int Min(int x, int y)
+    {
+        if (x < y)
+        {
+            return x;
+        }
+        else
+        {
+            return y;
+        }
+    }
+
+    static void GetNumber(int number)
+    {
+        WriteLine($"Int32: {number}");
+
+    }
+    static void GetNumber(long number)
+    {
+        WriteLine($"Int64: {number}");
+
+    }
+
+    static int MyPower(int num, int cnt)
+    {
+        if (cnt == 0)
+        {
+            return 1;
+
+        }
+        return num * MyPower(num, --cnt);
+    }
+
+    static void ShowMessage()
+    {
+        string message = "지역변수";
+        WriteLine(message);
+    }
+
+
+
     static void Main()
     {
+        show();
+        int returnValue = GetInt(3);
+        WriteLine(returnValue);
+
+        WriteLine(Max(3, 5));
+        WriteLine(Min(-3, -5));
+
+        GetNumber(1234);
+        GetNumber(1234L);
+        WriteLine(MyPower(2, 2));
+
+        ShowMessage();
+        WriteLine(message);
+        ///////////////////////////////////////////////////////////////////////
+        Write("이번주의 로또 : ");
+        Random ran = new Random();
+        int[] arr = new int[6];
+        int temp = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            temp = ran.Next(45) + 1;
+            bool flag = false;
+            if (i > 0 && i < 6)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (arr[j] == temp)
+                    {
+                        flag = true;
+                    }
+                
+                }
+            }
+            if (flag)
+            {
+                --i;
+            }
+            else
+            {
+                arr[i] = temp;
+            }
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            Write("{0} ", arr[i]);
+        }
+        WriteLine();
+
+        ////////////////////////////////////////////////////////////
+
+        int iRandom = 0;
+        int iSelection = 0;
+        string[] choice = { "가위", "바위", "보" };
+        iRandom = (new Random()).Next(1, 4);
+        Write("1가위 2바위 3보 입력 : _\b");
+        iSelection = Convert.ToInt32(ReadLine());
+        WriteLine("\n사용자 : {0}", choice[iSelection - 1]);
+        WriteLine("\n컴퓨터 : {0}\n", choice[iRandom - 1]);
+        if (iSelection == iRandom)
+        {
+            WriteLine("비김");
+        }
+        else
+        {
+            switch (iSelection)
+            {
+                case 1: WriteLine((iRandom == 3) ? "승" : "패");break;
+                case 2: WriteLine((iRandom == 1) ? "승" : "패");break;
+                case 3: WriteLine((iRandom == 2) ? "승" : "패");break;
+            }
+        }
+
+        /////////////////////////////////////////////////////////////
+        
+        Stopwatch timer = new Stopwatch();
+        timer.Start();
+        LongTimeProcess();
+        timer.Stop();
+
+        //밀리초단위로 표시
+        WriteLine("경과시간 : {0} 밀리초", timer.Elapsed.TotalMilliseconds);
+
+        //초단위로 표시
+        WriteLine("경과시간: {0} 초", timer.Elapsed.Seconds);
+
+        static void LongTimeProcess()
+        {
+            //3초간 대기 : Tread.Sleep()
+            Thread.Sleep(3000);
+         }
+
         //int number;
         //number = 7;
 
@@ -290,7 +442,7 @@ class SignedInteger
         }
 
         */
-
+        /*
         int[][] zagArray = new int[2][];
 
         zagArray[0] = new int[] { 1, 2 };
@@ -306,6 +458,10 @@ class SignedInteger
         }
 
         WriteLine();
+
+        */
+
+
 
 
     }
