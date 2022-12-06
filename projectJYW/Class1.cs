@@ -9,6 +9,7 @@ using static System.Console;
 using static System.Random;
 using static System.DateTime;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace projectJYW
 {
@@ -36,7 +37,7 @@ namespace projectJYW
         static int count = 1; //횟수
         static int totalMoney = 0; //총수익
         static int money = 0;//한판마다 들어오는 수익
-        static string[] pattern = new string[1000];//움직임의 패턴
+        static char[] pattern = new char[50];//움직임의 패턴
         static string[] realPattern = new string[1000];
         static int[] dollWeight = { 100, 200, 300, 400, 100, 150, 250, 350, 400, 150, 250, 300, 100, 150, 150, 300, 200, 250, 300, 250, 400, 400 };
         static char[] dollName = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T' };
@@ -49,27 +50,26 @@ namespace projectJYW
         };
 
         static int pin = 50;//집게의 무게 
-        static int time = DateTime.Today.Hour; //한 시간 기준으로 뽑히게 만드는데 사용되는 변수
-        static string selDoll = ""; //선택한 인형의 이름
+        static char selDoll = ' '; //선택한 인형의 이름
 
         //인형 위치변수
-        static int index_i = 0;
-        static int index_j = 0;
-        static int index_k = 0;
+        static int index_i = -1;
+        static int index_j = -1;
+        static int index_k = -1;
 
         //집게 위치변수
-        static int pin_i = 0;
+        static int pin_i = -1;
         static int pin_j = 0;
         static int pin_k = 0;
 
 
         static int c = 0;
-        static bool t_or_f = false;
+        static bool t_or_f = false;// 집게가 내려가있으면 true
 
         static int weight = 0;
         static char[] p = new char[50];
-
-
+        static int[] list = new int[20];
+        
         //인형 자리배치 함수
 
         static char[,,] DollPlace()
@@ -83,49 +83,69 @@ namespace projectJYW
 
                         if (i == 0)
                         {
-                            for (int l = 0; l < doll.dollWeight.Length; l++)
+                            place[i, j, k] = doll.dollName[k];
+                        }
+
+                        else if (i == 1)
+                            
+                        { //인형무게 150이하인 것들만 집어넣기
+                            place[i, j, k] = doll.dollName[k + 5];
+                            /*
+                            var row = j;
+                            var col = k;
+                            for (var x = 0; x < doll.dollWeight.Length; x++)
                             {
-                                if (doll.dollWeight[l] > 150 && doll.dollWeight[l] < 300)
+
+                                if (doll.dollWeight[x] >= 100 && doll.dollWeight[x] <= 150)
                                 {
-                                    place[i, j, k] = doll.dollName[l];
-                                    //인형무게 150 초과인 것들 집어넣기
-                                }
-                                else
-                                {
-                                    continue;
+                                    place[1, 0, col] = doll.dollName[x];
+                                    //WriteLine(doll.dollName[x]);
+                                    col++;
+
+
+
                                 }
                             }
-                        }
-
-                        if (i == 1)
-                        { //인형무게 150이하인 것들만 집어넣기
-
-                            place[i, j, k] = doll.dollName[k + 5];
-
+                            */
+                            //WriteLine(col);
                         }
                         else if (i == 2)
-                            //인형무게 150이하
+                        //인형무게 150이하
                         {
+
                             place[i, j, k] = doll.dollName[k + 10];
                         }
                         else if (i == 3)
-                            //나머지
+                        //나머지
                         {
                             place[i, j, k] = doll.dollName[k + 15];
                         }
 
-
-                        Write(place[i, j, k]);
+                        
+                        
 
 
                     }
+ 
+                    /*
+                    for (int n = 0; n < 5; n++)
+                    {
+                        Write(place[1, 0, n]);
+                    }
                     WriteLine();
+                    WriteLine();
+
+                    WriteLine();
+                    WriteLine();
+                    */
+
                 }
             } return place;
-
+             
         }
 
-        static void start(char a)
+        //프린트함수
+        static void printPlace()
         {
             for (int i = 0; i < 4; i++)
             {
@@ -133,16 +153,45 @@ namespace projectJYW
                 {
                     for (int k = 0; k < 5; k++)
                     {
-                        if (place[i, j, k] == a)
+
+                        Write(place[i, j, k] + " ");
+
+                    }
+                    WriteLine();
+
+                }
+            }
+
+        }
+
+        static void indexOut(char selectdoll)
+        {
+
+            
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    for (int k = 0; k < 5; k++)
+                    {
+                        if (place[i, j, k] == selectdoll)
                         {
                             //place인덱스번호 추출
                             index_i = i;
                             index_j = j;
                             index_k = k;
                         }
+                        else if (place[i, j, k] != selectdoll && place[i, j, k] == ' ')  
+                        {
+
+                            index_i = -1;
+                            index_j = -1;
+                            index_k = -1;
+                        }
                     }
                 }
             }
+            
 
 
         }
@@ -156,7 +205,7 @@ namespace projectJYW
             DateTime f = DateTime.Now.AddSeconds(5);
             DateTime d = DateTime.Now;
             Random ran = new Random();
-            int r = ran.Next(1, 4);
+            int r = ran.Next(1, 8);
 
             while (true)
             {
@@ -170,15 +219,21 @@ namespace projectJYW
 
                         if (r == 1)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                             WriteLine("인형을 들어올립니다.");
 
                             WriteLine("앗 팔이 집게에서 빠져나갑니다.");
 
                             WriteLine("인형을 뽑았습니다. 축하합니다.");
+                            //인형 빼놓기
+                            doll.place[index_i, index_j, index_k] = ' ';
                         }
                         else if (r == 2)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                             WriteLine("인형을 들어올립니다.");
 
@@ -188,6 +243,8 @@ namespace projectJYW
                         }
                         else if (r == 3)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                             WriteLine("인형을 들어올립니다.");
 
@@ -200,6 +257,9 @@ namespace projectJYW
                     }
                     else
                     {
+                        WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                        WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
+
                         WriteLine("불일치");
                         WriteLine("인형을 찾을 수 없습니다.");
 
@@ -214,42 +274,65 @@ namespace projectJYW
                     
                     char position = Convert.ToChar(ReadLine());
 
-                    p[c] = position;
+                    pattern[c] = position;
                         
                     c++;
 
 
-                    WriteLine(p);
+                    WriteLine(pattern);
                     if (position == 'a')
                     {
                         if (t_or_f == true)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine("집게를 올려주세요.");
+
                             continue;
                         }
                         if (pin_k != 0)
                         {
                             pin_k--;
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine(pin_k);
                         }
                         else
                         {
                             pin_k = 0;
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine(pin_k);
                         }
                     }
                     else if (position == 's')
                     {
 
-                        if (pin_i == 0)
+                        if (pin_i == -1)
                         {
-                            pin_i--;
+
+                            if (index_i > 0)
+                            {
+                                if (place[index_i - 1, index_j, index_k] == ' ')
+                                {
+                                    pin_i = index_i;
+                                }
+                            }
+                            else
+                            {
+                                pin_i++;
+                            }
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine("집게가 내려갑니다.");
                             t_or_f = true;
+                            
                         }
                         //좌우 움직이는 거 막아야함
                         else
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine("집게를 올려주세요.");
                             continue;
                         }
@@ -259,6 +342,8 @@ namespace projectJYW
                     {
                         if (t_or_f == true)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine("집게를 올려주세요.");
                             continue;
                         }
@@ -266,11 +351,15 @@ namespace projectJYW
                         if (pin_k == 5)
                         {
                             pin_k = 5;
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                         }
                         else
                         {
                             pin_k++;
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
                             WriteLine(pin_k);
                         }
                     }
@@ -278,20 +367,33 @@ namespace projectJYW
                     {
 
 
-                        if (t_or_f == true)
+                        if (t_or_f == true )
                         {
-                            pin_i = 0;
+                            
+                            if (index_i > 0)
+                            {
+                                if (place[index_i - 1, index_j, index_k] == ' ')
+                                {
+                                    pin_i = index_i;
+                                }
+                            }
+                            else
+                            {
+                                pin_i = 0;
+                            }
                             WriteLine("집게가 올라갑니다.");
-                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
-                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
+                            
 
                             //집게 위치확인 및 인형 뽑힐지 안 뽑힐지 여부 확인 함수실행.........
+
 
                             if (index_i == pin_i && index_j == pin_j && index_k == pin_k)
                             {
 
                                 if (r == 1)
                                 {
+                                    WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                                    WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                                     WriteLine("인형을 들어올립니다.");
 
@@ -299,9 +401,17 @@ namespace projectJYW
 
                                     WriteLine("인형을 뽑았습니다. 축하합니다.");
                                     t_or_f = false;
+                                    //해당인형 빼놓기
+                                    doll.place[index_i, index_j, index_k] = ' ';
+                                    pin_i = -1;
+
+
+
                                 }
                                 else if (r == 2)
                                 {
+                                    WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                                    WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                                     WriteLine("인형을 들어올립니다.");
 
@@ -309,9 +419,12 @@ namespace projectJYW
 
                                     WriteLine("안타깝네요.");
                                     t_or_f = false;
+                                    pin_i = -1;
                                 }
                                 else if (r == 3)
                                 {
+                                    WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                                    WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
                                     WriteLine("인형을 들어올립니다.");
 
@@ -319,23 +432,47 @@ namespace projectJYW
 
                                     WriteLine("안타깝네요.");
                                     t_or_f = false;
+                                    pin_i = -1;
+                                }
+                                else
+                                {
+                                    WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                                    WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
+
+                                    WriteLine("인형을 들어올립니다.");
+
+                                    WriteLine("앗 다리가 집게에서 빠져나갑니다.");
+
+                                    WriteLine("안타깝네요.");
+                                    t_or_f = false;
+                                    pin_i = -1;
+
                                 }
                                 break;
 
                             }
                             else
                             {
+                                
+                                WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                                WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
+
                                 WriteLine("불일치");
-                                WriteLine("인형을 찾을 수 없습니다.");
+                                WriteLine("이 위치가 아닙니다.");
                                 t_or_f = false;
+                          
+                                pin_i = -1;
                             }
                             break;
 
                             
 
                         }
-                        else
+                        else if(pin_i == -1)
                         {
+                            WriteLine($"인형위치: {index_i},{index_j},{index_k}");
+                            WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
+
                             WriteLine("집게가 내려가지 않았습니다.");
                             continue;
                         }
@@ -350,79 +487,153 @@ namespace projectJYW
 
         static void Main()
         {
+            DollPlace();
+            
 
-            char[,,] s = DollPlace();
-            WriteLine(s);
-
-
-            WriteLine("기계에 돈을 넣으면 뽑기를 시작합니다.");
-            WriteLine("1. 돈 투입 2. 로그확인");
-            string number = ReadLine();
-            if (number == "1")
+            while (true)
             {
-                Write("돈 입력 : ");
-
-                doll.money = Convert.ToInt32(ReadLine());
-                doll.totalMoney += doll.money;
-
-                if (doll.money / 1000 >= 10)
+                WriteLine("기계에 돈을 넣으면 뽑기를 시작합니다.");
+                WriteLine("1. 돈 투입 2. 로그확인");
+                string number = ReadLine();
+                if (number == "1")
                 {
-                    doll.count = Convert.ToInt32(Math.Truncate((doll.money / 1000) * 1.2));
+                    Write("돈 입력 : ");
 
+                    doll.money = Convert.ToInt32(ReadLine());
+                    doll.totalMoney += doll.money;
 
-                    for (int i = 0; i < count; i++)
+                    if (Convert.ToInt32(doll.money / 1000) >= 10)
                     {
-                        WriteLine($"게임을 시작합니다. 횟수 : {doll.count - i}번");
-                        WriteLine("인형을 골라주세요. 인형이름은 A ~ T까지 입니다.");
-                        char a = Convert.ToChar(ReadLine());
-                        start(a);
-                        //게임시작
-                        //인형을 고르면 함수에 집어 넣음
-                        //함수는 고른 인형의 인덱스번호를 추출
-                        //해당 인형의 무게 가져옴
-                        WriteLine($"인형의 위치는 {index_i},{index_j},{index_k} 입니다.");
-                        WriteLine($"집게의 위치는 {pin_i},{pin_j},{pin_k} 입니다.");
-                        int b = Array.IndexOf(doll.dollName, a);
-                        weight = doll.dollWeight[b];
-                        WriteLine(weight);
+                        doll.count = Convert.ToInt32(Math.Truncate((doll.money / 1000) * 1.2));
 
 
-                        if (100 <= weight && weight <= 150)
-                        {//인형의 무게가 100~ 150사이이면 집게의 힘을 올림(잘 집어지는 무게)
 
-                            game();
-                            return;
+                        for (int i = 0; i < count; i++)
+                        {
+                            WriteLine($"게임을 시작합니다. 횟수 : {doll.count - i}번");
+                            while (true)
+                            {
+                                WriteLine("인형을 골라주세요. 인형이름은 A ~ T까지 입니다.");
+                                doll.selDoll = Convert.ToChar(ReadLine());
+                                indexOut(doll.selDoll);
+                                if (index_i == -1)
+                                {
+                                    WriteLine("해당 인형이 없습니다.");
+                                    continue;
+                                }
+                                else
+                                    break;
+                            }
+                            //게임시작
+                            //인형을 고르면 함수에 집어 넣음
+                            //함수는 고른 인형의 인덱스번호를 추출
+                            //해당 인형의 무게 가져옴
+
+                            printPlace();
+
+                            WriteLine($"인형의 위치는 {index_i},{index_j},{index_k} 입니다.");
+                            WriteLine($"집게의 위치는 {pin_i},{pin_j},{pin_k} 입니다.");
+                            int b = Array.IndexOf(doll.dollName, doll.selDoll);
+                            weight = doll.dollWeight[b];
+                            WriteLine(weight);
+
+
+                            if (100 <= weight && weight <= 150)
+                            {//인형의 무게가 100~ 150사이이면 집게의 힘을 올림(잘 집어지는 무게)
+
+                                game();
+                                pin_i = -1;
+                                pin_j = 0;
+                                pin_k = 0;
+                                continue;
+
+                            }
+                            else if (150 <= weight)
+                            {
+                                game();
+                                pin_i = -1;
+                                pin_j = 0;
+                                pin_k = 0;
+                                continue;
+                            }
 
                         }
-                        else if (150 <= weight)
+
+
+                        //동일인인지 판별여부
+                        //같은 인형을 뽑는지
+
+                        //패턴파악
+
+
+
+                    }
+                    else if (Convert.ToInt32(doll.money / 1000) < 10)
+                    {
+                        //돈
+                        WriteLine(doll.money);
+                        doll.count = Convert.ToInt32(doll.money / 1000);
+
+                        for (int i = 0; i < count; i++)
                         {
-                            game();
-                            return;
+                            WriteLine($"게임을 시작합니다. 횟수 : {doll.count - i}번");
+                            while (true)
+                            {
+                                WriteLine("인형을 골라주세요. 인형이름은 A ~ T까지 입니다.");
+                                doll.selDoll = Convert.ToChar(ReadLine());
+                                indexOut(doll.selDoll);
+                                if (index_i == -1)
+                                {
+                                    WriteLine("해당 인형이 없습니다.");
+                                    continue;
+                                }
+                                else
+                                    break;
+                            }
+                            //게임시작
+                            //인형을 고르면 함수에 집어 넣음
+                            //함수는 고른 인형의 인덱스번호를 추출
+                            //해당 인형의 무게 가져옴
+
+                            printPlace();
+                            WriteLine($"인형의 위치는 {index_i},{index_j},{index_k} 입니다.");
+                            WriteLine($"집게의 위치는 {pin_i},{pin_j},{pin_k} 입니다.");
+                            int b = Array.IndexOf(doll.dollName, doll.selDoll);
+                            weight = doll.dollWeight[b];
+                            WriteLine(weight);
+
+
+                            if (100 <= weight && weight <= 150)
+                            {//인형의 무게가 100~ 150사이이면 집게의 힘을 올림(잘 집어지는 무게)
+
+                                game();
+                                pin_i = -1;
+                                pin_j = 0;
+                                pin_k = 0;
+                                continue;
+
+                            }
+                            else if (150 <= weight)
+                            {
+                                game();
+                                pin_i = -1;
+                                pin_j = 0;
+                                pin_k = 0;
+                                continue;
+                            }
+
                         }
 
                     }
 
-                    //한 시간마다 한번씩 온전히 뽑히게 함
-
-
-
-                    //동일인인지 판별여부
-                    //같은 인형을 뽑는지
-
-                    //패턴파악
-
-
+                }
+                else if (number == "2")
+                {
+                    WriteLine($"총 수익 : {totalMoney}");
 
                 }
-                //else if()
 
             }
-            else if (number == "2")
-            {
-                WriteLine($"총 수익 : {totalMoney}");
-            
-            }
-
         }
 
     

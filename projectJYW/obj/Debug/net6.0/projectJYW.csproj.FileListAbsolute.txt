@@ -1,7 +1,7 @@
 C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.exe
+C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.dll
 C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.deps.json
 C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.runtimeconfig.json
-C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.dll
 C:\study\projectJYW\projectJYW\bin\Debug\net6.0\projectJYW.pdb
 C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.csproj.AssemblyReference.cache
 C:\study\projectJYW\projectJYW\obj\Debug\net6.0\projectJYW.GeneratedMSBuildEditorConfig.editorconfig
