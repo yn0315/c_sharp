@@ -37,16 +37,15 @@ namespace projectJYW
         static int count = 1; //횟수
         static int totalMoney = 0; //총수익
         static int money = 0;//한판마다 들어오는 수익
-        static char[] pattern = new char[50];//움직임의 패턴
-        static string[] realPattern = new string[1000];
+        static char[] pattern = new char[10];//움직임의 패턴
         static int[] dollWeight = { 100, 200, 300, 400, 100, 150, 250, 350, 400, 150, 250, 300, 100, 150, 150, 300, 200, 250, 300, 250, 400, 400 };
         static char[] dollName = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T' };
+        
         static char[,,] place = {
         {{'C','E','I','M','Q'}},
         {{'B','F','J','N','R'}},
         {{'A','G','K','O','S'}},
         {{'D','H','L','P','T'}},
-
         };
 
         static int pin = 50;//집게의 무게 
@@ -62,14 +61,15 @@ namespace projectJYW
         static int pin_j = 0;
         static int pin_k = 0;
 
-
-        static int c = 0;
+        
+        static int c = 0;//pattern인덱스변수
         static bool t_or_f = false;// 집게가 내려가있으면 true
 
-        static int weight = 0;
-        static char[] p = new char[50];
-        static int[] list = new int[20];
-        
+        static int weight = 0; //인형무게변수
+        static char[] p = new char[10];//이전 패턴 저장하는 변수
+
+
+        static int person = 1;
         //인형 자리배치 함수
 
         static char[,,] DollPlace()
@@ -102,8 +102,6 @@ namespace projectJYW
                                     //WriteLine(doll.dollName[x]);
                                     col++;
 
-
-
                                 }
                             }
                             */
@@ -121,23 +119,7 @@ namespace projectJYW
                             place[i, j, k] = doll.dollName[k + 15];
                         }
 
-                        
-                        
-
-
                     }
- 
-                    /*
-                    for (int n = 0; n < 5; n++)
-                    {
-                        Write(place[1, 0, n]);
-                    }
-                    WriteLine();
-                    WriteLine();
-
-                    WriteLine();
-                    WriteLine();
-                    */
 
                 }
             } return place;
@@ -196,6 +178,40 @@ namespace projectJYW
 
         }
 
+        static void oneOrTwo()
+        {
+            int personCount = 0;
+            for (int i = 0; i < pattern.Length; i++)
+            {
+                
+                if (p[0] != 'a' && p[0] != 's' && p[0] != 'd' && p[0] != 'w')
+                    person = 1;
+                    
+
+
+                if (p[i] == pattern[i])
+                {
+                    personCount++;
+                    
+                }
+                else if (p[i] != pattern[i])
+                {
+                    personCount--;
+                }
+
+                if (personCount > 4)
+                {
+                    person = 1;
+                }
+              
+            }
+            if (personCount < 4)
+                person++;
+            WriteLine($"personCount, {personCount}");
+
+        }
+
+
         static void game()
         {
             //집게의 힘을 올려라
@@ -229,6 +245,20 @@ namespace projectJYW
                             WriteLine("인형을 뽑았습니다. 축하합니다.");
                             //인형 빼놓기
                             doll.place[index_i, index_j, index_k] = ' ';
+                            t_or_f = false;
+                            oneOrTwo();
+                            pin_i = -1;
+                            WriteLine("p");
+
+                            oneOrTwo();
+                            for (int i = 0; i < 10; i++)
+                            {
+                                p[i] = pattern[i];
+                            }
+
+
+                            Array.Clear(pattern, 0, 10);
+                            c = 0;
                         }
                         else if (r == 2)
                         {
@@ -240,6 +270,25 @@ namespace projectJYW
                             WriteLine("앗 다리가 집게에서 빠져나갑니다.");
 
                             WriteLine("안타깝네요.");
+                            t_or_f = false;
+                            oneOrTwo();
+                            pin_i = -1;
+                            WriteLine("이전 ");
+                            for (int i = 0; i < 10; i++)
+                            {
+                                WriteLine(p[i]);
+                            }
+
+                            oneOrTwo();
+
+                            for (int i = 0; i < 10; i++)
+                            {
+                                p[i] = pattern[i];
+                            }
+
+
+                            Array.Clear(pattern, 0, 10);
+                            c = 0;
                         }
                         else if (r == 3)
                         {
@@ -251,6 +300,19 @@ namespace projectJYW
                             WriteLine("앗 머리가 집게에서 빠져나갑니다.");
 
                             WriteLine("안타깝네요.");
+                            t_or_f = false;
+                            oneOrTwo();
+                            pin_i = -1;
+                            WriteLine("p");
+                            
+                            oneOrTwo();
+                            for (int i = 0; i < 10; i++)
+                            {
+                                p[i] = pattern[i];
+                            }
+
+                            Array.Clear(pattern, 0, 10);
+                            c = 0;
                         }
                         break;
 
@@ -262,6 +324,21 @@ namespace projectJYW
 
                         WriteLine("불일치");
                         WriteLine("인형을 찾을 수 없습니다.");
+                        t_or_f = false;
+                        oneOrTwo();
+                        pin_i = -1;
+                        WriteLine("p");
+
+                        oneOrTwo();
+                        for (int i = 0; i < 10; i++)
+                        {
+                            p[i] = pattern[i];
+                        }
+
+                        for (int i = 0; i < 10; i++)
+  
+                        Array.Clear(pattern, 0, 10);
+                        c = 0;
 
                     }
                     break;
@@ -384,8 +461,6 @@ namespace projectJYW
                             WriteLine("집게가 올라갑니다.");
                             
 
-                            //집게 위치확인 및 인형 뽑힐지 안 뽑힐지 여부 확인 함수실행.........
-
 
                             if (index_i == pin_i && index_j == pin_j && index_k == pin_k)
                             {
@@ -405,7 +480,17 @@ namespace projectJYW
                                     doll.place[index_i, index_j, index_k] = ' ';
                                     pin_i = -1;
 
+                                    WriteLine("p");
+                                    oneOrTwo();
 
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        p[i] = pattern[i];
+                                    }
+
+                                    Array.Clear(pattern, 0, 10);
+
+                                    c = 0;
 
                                 }
                                 else if (r == 2)
@@ -420,6 +505,18 @@ namespace projectJYW
                                     WriteLine("안타깝네요.");
                                     t_or_f = false;
                                     pin_i = -1;
+                                    WriteLine("이전 ");
+
+                                    oneOrTwo();
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        p[i] = pattern[i];
+                                    }
+
+                                    Array.Clear(pattern, 0, 10);
+                                    
+                                    c = 0;
+
                                 }
                                 else if (r == 3)
                                 {
@@ -433,6 +530,17 @@ namespace projectJYW
                                     WriteLine("안타깝네요.");
                                     t_or_f = false;
                                     pin_i = -1;
+                                    WriteLine("이전 ");
+
+                                    oneOrTwo();
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        p[i] = pattern[i];
+                                    }
+
+                                    Array.Clear(pattern, 0, 10);
+                                    
+                                    c = 0;
                                 }
                                 else
                                 {
@@ -446,6 +554,17 @@ namespace projectJYW
                                     WriteLine("안타깝네요.");
                                     t_or_f = false;
                                     pin_i = -1;
+                                    WriteLine("이전 ");
+
+                                    oneOrTwo();
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        p[i] = pattern[i];
+                                    }
+
+                                    Array.Clear(pattern, 0, 10);
+                                    
+                                    c = 0;
 
                                 }
                                 break;
@@ -460,12 +579,20 @@ namespace projectJYW
                                 WriteLine("불일치");
                                 WriteLine("이 위치가 아닙니다.");
                                 t_or_f = false;
-                          
+                                oneOrTwo();
                                 pin_i = -1;
+
+
+                                oneOrTwo();
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    p[i] = pattern[i];
+                                }
+
+                                Array.Clear(pattern, 0, 10);
+                                c = 0;
                             }
                             break;
-
-                            
 
                         }
                         else if(pin_i == -1)
@@ -505,8 +632,6 @@ namespace projectJYW
                     if (Convert.ToInt32(doll.money / 1000) >= 10)
                     {
                         doll.count = Convert.ToInt32(Math.Truncate((doll.money / 1000) * 1.2));
-
-
 
                         for (int i = 0; i < count; i++)
                         {
@@ -560,17 +685,10 @@ namespace projectJYW
                         }
 
 
-                        //동일인인지 판별여부
-                        //같은 인형을 뽑는지
-
-                        //패턴파악
-
-
-
                     }
                     else if (Convert.ToInt32(doll.money / 1000) < 10)
                     {
-                        //돈
+
                         WriteLine(doll.money);
                         doll.count = Convert.ToInt32(doll.money / 1000);
 
@@ -630,7 +748,7 @@ namespace projectJYW
                 else if (number == "2")
                 {
                     WriteLine($"총 수익 : {totalMoney}");
-
+                    WriteLine($"게임 인원 : {person}");
                 }
 
             }
