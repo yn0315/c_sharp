@@ -49,8 +49,8 @@ namespace projectJYW
         {{'D','H','L','P','T'}},
         };
 
-        static int pin = 50;//집게의 무게 
         static char selDoll = ' '; //선택한 인형의 이름
+        static char freDoll = ' '; //이전에 선택한 인형의 이름
 
         //인형 위치변수
         static int index_i = -1;
@@ -218,7 +218,7 @@ namespace projectJYW
             }
             catch (Exception ex)
             {
-                WriteLine("mothod - indexOut", ex.Message);
+                WriteLine("method - indexOut", ex.Message);
                 throw;
             }
         }
@@ -244,18 +244,13 @@ namespace projectJYW
                         personCount--;
                     }
 
-                    if (personCount > 4)
-                    {
-                        person = 1;
-                    }
-
                 }
                 if (personCount < 4)
                     person++;
             }
             catch (Exception ex)
             {
-                WriteLine("mothod - oneOrTwo",ex.Message);
+                WriteLine("method - oneOrTwo",ex.Message);
                 throw;
             }
 
@@ -289,7 +284,6 @@ namespace projectJYW
                     }
 
                     Array.Clear(pattern, 0, 10);
-
                     c = 0;
 
                 }
@@ -368,7 +362,7 @@ namespace projectJYW
             }
             catch(Exception ex)
             {
-                WriteLine("mothod - gameResult",ex.Message);
+                WriteLine("method - gameResult",ex.Message);
                 throw;
             }
         }
@@ -491,9 +485,9 @@ namespace projectJYW
                                 continue;
                             }
 
-                            if (pin_k == 5)
+                            if (pin_k == 4)
                             {
-                                pin_k = 5;
+                                pin_k = 4;
                                 WriteLine($"인형위치: {index_i},{index_j},{index_k}");
                                 WriteLine($"집게위치: {pin_i},{pin_j},{pin_k}");
 
@@ -600,8 +594,15 @@ namespace projectJYW
                                     WriteLine();
                                     printPlace();
                                     doll.selDoll = Convert.ToChar(ReadLine());
+                                    if (doll.freDoll != doll.selDoll)
+                                        person++;
+
+                                    doll.freDoll = doll.selDoll;
+                                    
+
                                     indexOut(doll.selDoll);
-                                    if (index_i == -1)
+
+                                    if (index_i == -1 && index_j == -1 && index_k == -1)
                                     {
                                         WriteLine("해당 인형이 없습니다.");
                                         continue;
@@ -657,7 +658,13 @@ namespace projectJYW
                                     printPlace();
                                     doll.selDoll = Convert.ToChar(ReadLine());
                                     indexOut(doll.selDoll);
-                                    if (index_i == -1)
+                                    if (doll.freDoll != doll.selDoll)
+                                        person++;
+                              
+
+                                    doll.freDoll = doll.selDoll;
+
+                                    if (index_i == -1 && index_j == -1 && index_k == -1)
                                     {
                                         WriteLine("해당 인형이 없습니다.");
                                         continue;
@@ -706,7 +713,7 @@ namespace projectJYW
                 catch(Exception ex)
                 {
                     WriteLine("main",ex.Message);
-                    throw;
+                    
                 }
             }
         }
