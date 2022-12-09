@@ -1,11 +1,26 @@
 ﻿using System;
+using System.Diagnostics;
+using static System.Random;
 
 class BubbleSort
 {
     static void Main(string[] args)
     {
-        int[] Arr = new int[] { 1, 4, 3, 5, 9, 6, 2, 7, 8, 10 };
+        Console.WriteLine("배열 길이 입력");
+        int count = Convert.ToInt32(Console.ReadLine());
+        int[] Arr = new int[count];
+        Random r = new Random();
+        int num = 0;
 
+        Console.WriteLine("배열 값 입력");
+        for (int i = 0; i < count; i++)
+        {
+            num = r.Next(10000);
+            Arr[i] = num;
+        }
+        //int[] Arr = new int[] { 1, 4, 3, 5, 9, 6, 2, 7, 8, 10 };
+        Stopwatch st = new Stopwatch();
+        st.Start();
         int temp;//임시 배열을 선언한다.
         
         for (int i = 0; i < Arr.Length - 1; i++)//회전을 배열의 길이 -1만큼 한다.
@@ -25,8 +40,11 @@ class BubbleSort
         }
 
 
-
+        st.Stop();
         for (int i = 0; i < Arr.Length; i++)
             Console.Write(Arr[i] + "\t");
-    }
+        System.Console.WriteLine("time : " +
+                           st.ElapsedMilliseconds + "ms");
+    
+}
 }

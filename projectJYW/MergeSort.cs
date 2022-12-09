@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 public class MergeSort
 {
     static void merge_sort(int[] a) //배열 집어넣어서 병합정렬함수 불러오는 함수
@@ -60,13 +62,29 @@ public class MergeSort
 
     static void Main()
     {
-        int[] arr = { 9, 1, 22, 4, 0, -1, 1, 22, 100, 10 };
+        Console.WriteLine("배열 길이 입력");
+        int count = Convert.ToInt32(Console.ReadLine());
+        int[] arr = new int[count];
+        Console.WriteLine("배열 값 입력");
+        Random r = new Random();
+        int num = 0;
+        for (int i = 0; i < count; i++)
+        {
+            num = r.Next(100000);
+            arr[i] = num;
+        }
+        //int[] arr = { 9, 1, 22, 4, 0, -1, 1, 22, 100, 10 };
+        Stopwatch st = new Stopwatch();
+        st.Start();
         merge_sort(arr);
+        st.Stop();
         Console.Write(String.Join(",", arr));
-        
-
-
-
-
+        System.Console.WriteLine("time : " +
+                           st.ElapsedMilliseconds + "ms");
     }
+
+
+
+
 }
+

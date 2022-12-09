@@ -1,16 +1,32 @@
 ﻿using System;
-
+using System.Diagnostics;
 
 class QuickSort
 {
     static void Main(string[] args)
     {
-        int[] nArr = new int[] { 1, 4, 3, 5, 9, 6, 2, 7, 8, 10 };
 
-        quick_sort(nArr, 0, nArr.Length - 1);
+        Console.WriteLine("배열 길이 입력");
+        int Count = Convert.ToInt32(Console.ReadLine());
+        int[] inputArr = new int[Count];
+        Console.WriteLine("배열 값 입력");
+        Random r = new Random();
+        int num = 0;
+        for (int i = 0; i < Count; i++)
+        {
+            num = r.Next(100000);
+            inputArr[i] = num;
+        }
 
-        for (int i = 0; i < nArr.Length; i++)
-            Console.Write(nArr[i] + "\t");
+        //int[] nArr = new int[] { 1, 4, 3, 5, 9, 6, 2, 7, 8, 10 };
+        Stopwatch st = new Stopwatch();
+        st.Start();
+        quick_sort(inputArr, 0, inputArr.Length - 1);
+        st.Stop();
+        for (int i = 0; i < inputArr.Length; i++)
+            Console.Write(inputArr[i] + "\t");
+        System.Console.WriteLine("time : " +
+                           st.ElapsedMilliseconds + "ms");
     }
     private static int ArryDivide(int[] Arry, int left, int right)
     {
@@ -51,6 +67,8 @@ class QuickSort
     }
     private static void quick_sort(int[] arry, int left, int right)
     {
+        
+        
         if (left < right)
         {
             int PivotIndex = ArryDivide(arry, left, right);
