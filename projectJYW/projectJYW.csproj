@@ -5,12 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>GetDateTimeFromYearlyHour</StartupObject>
+    <StartupObject>ModeAlgorithm</StartupObject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="dollProject.cs" />
-    <Compile Remove="HelloWorld.cs" />
-  </ItemGroup>
 
 </Project>
