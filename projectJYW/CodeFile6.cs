@@ -1,34 +1,24 @@
-﻿using System;
-using System.Linq;
-using static System.Console;
+﻿using static System.Console;
 
-class NearAlgorithm
+class DateTimeTryParse
 {
     static void Main()
     {
-        int Abs(int number) => (number < 0) ? -number : number;
+        DateTime dt;
 
-        int min = int.MaxValue;
-        
-
-        int[] numbers = { 0b1010, 0x14, 0b11110, 0x1B, 0b10001 };
-        int target = 25;
-        int near = default;
-
-        for (int i = 0; i < numbers.Length; i++)
+        if (DateTime.TryParse("2020-01-01", out dt))
         {
-            int abs = Abs(numbers[i] - target);
-            if (abs < min)
-            {
-                min = abs;
-                near = numbers[i];
-
-            }
+            WriteLine(dt);
+        }
+        else
+        {
+            WriteLine("날짜형식으로 변환할 수 없습니다.");
         }
 
-        var minimum = numbers.Min(m => Math.Abs(m - target));
-        var closest = numbers.First(c => Math.Abs(target - c) == minimum);
-        WriteLine($"{target}과 가장 가까운 값(식) : {closest}(차이 : {minimum})");
-        WriteLine($"{target}과 가장 가까운 값(문) : {near}(차이 : {min})");
+        if (DateTime.TryParse("2020-01-01", out var myDate))
+        {
+            WriteLine(myDate);
+        }
+
     }
 }

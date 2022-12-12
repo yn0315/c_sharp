@@ -1,32 +1,76 @@
-﻿using System;
-using System.Linq;
+﻿using System.Drawing;
+using static System.Console;
 
-class ModeAlgorithm
+namespace PropertyNote
 {
-    static void Main()
+    public class Car
     {
-        int[] scores = { 1, 3, 4, 3, 5 };
-        int[] indexes = new int[5 + 1];
-        int max = int.MinValue;
-        int mode = 0;
+        public static string Color;
+        private static string _Type;
 
-        for (int i = 0; i < scores.Length; i++)
+        public static string Type
         {
-            indexes[scores[i]]++;
+            get { return _Type; }
+            set { _Type = value; }
         }
-        for (int i = 0; i < indexes.Length; i++)
+        static Car()
         {
-            if (indexes[i] > max)
+            Color = "Red";
+            _Type = "스포츠카";
+        }
+
+
+    }
+
+}
+namespace PropertyNote
+{
+    public class Person
+    {
+        private int _BirthYear;
+
+        public string Name { get; set; }
+        public int BirthYear
+        {
+            set
             {
-                max = indexes[i];
-                mode = i;
+                if (value >= 1900)
+                {
+                    _BirthYear = value;
+                }
+                else
+                {
+                    _BirthYear = 0;
+                }
+            }
+
+        }
+        public int Age
+        {
+            get
+            {
+                return (DateTime.Now.Year -_BirthYear);
             }
         }
+        public Person(string name)
+        {
+            Name = name;
+        }
+    }
+}
+namespace PropertyNote
+{
+    class PropertyNote
+    {
+        static void Main()
+        {
+            Car.Color = "Black";
+            Car.Type = "세단";
+            WriteLine($"차종: {Car.Type},색상: {Car.Color}");
 
-        Console.WriteLine($"최빈값(문) : {mode} -> {max}번 나타남");
-        var q = scores.GroupBy(v => v).OrderByDescending(g => g.Count()).First();
-        int modeCount = q.Count();
-        int frequency = q.Key;
-        Console.WriteLine($"최빈값(식) : {frequency} -> {modeCount}번 나타남");
+            Person person = new Person("박용준");
+            person.BirthYear = (DateTime.Now.Year - 21);
+            WriteLine($"이름: {person.Name}, 나이: {person.Age}");
+        }
     }
 }

@@ -1,35 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using static System.Console;
 
-class NearAll
+class ParamsDemo
 {
     static void Main()
     {
-        int[] data = { 10, 20, 23, 27, 17 };
-        int target = 25;
-        List<int> nears = new List<int>();
-        int min = Int32.MaxValue;
+        WriteLine(SumAll(3,5));
+        WriteLine(SumAll(3,5,7));
+        WriteLine(SumAll(3,5,7,9));
 
-        for (int i = 0; i < data.Length; i++)
+    }
+    static int SumAll(params int[] numbers)
+    {
+        int sum = 0;
+        foreach (int num in numbers)
         {
-            if (Math.Abs(data[i] - target) < min)
-            {
-                min = Math.Abs(data[i] - target);
-            }
+            sum += sum;
         }
-        Console.WriteLine($"차이의 최솟값: {min}");
-
-        for (int i = 0; i < data.Length; i++)
-        {
-            if (Math.Abs(data[i] - target) == min)
-            {
-                nears.Add(data[i]);
-            }
-        }
-
-        foreach (var n in nears)
-        {
-            Console.WriteLine(n);
-        }
+        return sum;
     }
 }

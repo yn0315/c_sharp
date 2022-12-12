@@ -5,7 +5,56 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>MergeSort</StartupObject>
+    <StartupObject></StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="221206.cs" />
+    <Compile Remove="221208.cs" />
+    <Compile Remove="221209.cs" />
+    <Compile Remove="221212.cs" />
+    <Compile Remove="BubbleSort.cs" />
+    <Compile Remove="Car.cs" />
+    <Compile Remove="Circle.cs" />
+    <Compile Remove="CodeFile1.cs" />
+    <Compile Remove="CodeFile10.cs" />
+    <Compile Remove="CodeFile11.cs" />
+    <Compile Remove="CodeFile12.cs" />
+    <Compile Remove="CodeFile13.cs" />
+    <Compile Remove="CodeFile14.cs" />
+    <Compile Remove="CodeFile15.cs" />
+    <Compile Remove="CodeFile16.cs" />
+    <Compile Remove="CodeFile17.cs" />
+    <Compile Remove="CodeFile18.cs" />
+    <Compile Remove="CodeFile19.cs" />
+    <Compile Remove="CodeFile2.cs" />
+    <Compile Remove="CodeFile3.cs" />
+    <Compile Remove="CodeFile4.cs" />
+    <Compile Remove="CodeFile5.cs" />
+    <Compile Remove="CodeFile6.cs" />
+    <Compile Remove="CodeFile7.cs" />
+    <Compile Remove="CodeFile8.cs" />
+    <Compile Remove="CodeFile9.cs" />
+    <Compile Remove="ConstructorAll.cs" />
+    <Compile Remove="CountFunc.cs" />
+    <Compile Remove="Dog.cs" />
+    <Compile Remove="dollProject.cs" />
+    <Compile Remove="EnumerableDemo.cs" />
+    <Compile Remove="HelloWorld.cs" />
+    <Compile Remove="MergeAlgorithm.cs" />
+    <Compile Remove="MergeSort.cs" />
+    <Compile Remove="ModelAlgorithm.cs" />
+    <Compile Remove="Namboreogani.cs" />
+    <Compile Remove="NearAlgorithm.cs" />
+    <Compile Remove="NearAll.cs" />
+    <Compile Remove="ParameterOut.cs" />
+    <Compile Remove="Pet.cs" />
+    <Compile Remove="QuickSort.cs" />
+    <Compile Remove="Say.cs" />
+    <Compile Remove="SearchAlgorithm.cs" />
+    <Compile Remove="SelectionSort.cs" />
+    <Compile Remove="SeoulIncheon.cs" />
+    <Compile Remove="validation.cs" />
+  </ItemGroup>
 
 </Project>
